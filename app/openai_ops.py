@@ -625,6 +625,7 @@ def generate_chatgpt_response(
     context: BoltContext,
     logger: logging.Logger,
     openai_api_key: str,
+    document: str,
     prompt: str,
     timeout_seconds: int,
 ) -> str:
@@ -635,7 +636,8 @@ def generate_chatgpt_response(
                 "You're an assistant tasked with helping Slack users by responding to a given prompt. "
                 "If the first line of a user's request is in a non-English language, "
                 "please provide its result in that same language. "
-                "Lastly, please prioritize speed of generation over perfection."
+                "Lastly, please prioritize speed of generation over perfection. "
+                f"Here is some additional information to assist you: {document}"
             ),
         },
         {"role": "user", "content": prompt},
