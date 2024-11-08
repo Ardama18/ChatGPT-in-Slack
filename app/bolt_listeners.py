@@ -75,7 +75,7 @@ from app.slack_ui import (
     build_image_variations_wip_modal,
     build_image_variations_input_modal,
 )
-
+from dataloader import concat_document
 
 #
 # Listener functions
@@ -1022,13 +1022,17 @@ def display_chat_from_scratch_result(
 ):
     text = ""
     openai_api_key = context.get("OPENAI_API_KEY")
+    from pathlib import Path
+    document_text = concat_document(Path("data/"))
     try:
+
         prompt = extract_state_value(payload, "prompt").get("value")
         text = "\n".join(map(lambda s: f">{s}", prompt.split("\n")))
         result = generate_chatgpt_response(
             context=context,
             logger=logger,
             openai_api_key=openai_api_key,
+            document=document_text,
             prompt=prompt,
             timeout_seconds=OPENAI_TIMEOUT_SECONDS,
         )
@@ -1075,24 +1079,6 @@ def register_listeners(app: App):
     app.action("send-proofread-result-in-dm")(
         ack=just_ack,
         lazy=[send_proofreading_result_in_dm],
-    )
-
-    # Image generation
-    app.action("templates-image-generation")(
-        ack=just_ack,
-        lazy=[start_image_generation],
-    )
-    app.view("image-generation")(
-        ack=ack_image_generation_modal_submission,
-        lazy=[display_image_generation_result],
-    )
-    app.action("templates-image-variations")(
-        ack=just_ack,
-        lazy=[start_image_variations],
-    )
-    app.view("image-variations")(
-        ack=ack_image_variations_modal_submission,
-        lazy=[display_image_variations_result],
     )
 
     # Free format chat

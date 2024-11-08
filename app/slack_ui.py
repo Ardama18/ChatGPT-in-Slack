@@ -245,12 +245,10 @@ def build_home_tab(
     message = translated_sentences[0]
     configure_label = translated_sentences[1]
     proofreading = translated_sentences[2]
-    from_scratch = translated_sentences[3]
+    from_scratch = "業務規約についての質問がありますか？"
     start = translated_sentences[4]
     chat_templates = translated_sentences[5]
     configuration = translated_sentences[6]
-    image_generation = translated_sentences[7]
-    image_variations = translated_sentences[8]
 
     blocks = []
     if single_workspace_mode is False:
@@ -290,26 +288,6 @@ def build_home_tab(
                         "text": {"type": "plain_text", "text": start or " "},
                         "value": proofreading or " ",
                         "action_id": "templates-proofread",
-                    },
-                },
-                {
-                    "type": "section",
-                    "text": {"type": "mrkdwn", "text": image_generation or " "},
-                    "accessory": {
-                        "type": "button",
-                        "text": {"type": "plain_text", "text": start or " "},
-                        "value": image_generation or " ",
-                        "action_id": "templates-image-generation",
-                    },
-                },
-                {
-                    "type": "section",
-                    "text": {"type": "mrkdwn", "text": image_variations or " "},
-                    "accessory": {
-                        "type": "button",
-                        "text": {"type": "plain_text", "text": start or " "},
-                        "value": image_variations or " ",
-                        "action_id": "templates-image-variations",
                     },
                 },
                 {
@@ -410,18 +388,18 @@ def build_proofreading_input_modal(prompt: str, tone_and_voice: Optional[str]) -
     tone_and_voice_options = [
         {"text": {"type": "plain_text", "text": persona}, "value": persona}
         for persona in [
-            "Friendly and humble individual in Slack",
-            "Software developer discussing issues on GitHub",
-            "Engaging yet insightful social media poster",
-            "Customer service representative handling inquiries",
-            "Marketing manager creating a product launch script",
-            "Technical writer documenting software procedures",
-            "Product manager creating a roadmap",
-            "HR manager composing a job description",
-            "Public relations officer drafting statements",
-            "Scientific researcher publicizing findings",
-            "Travel blogger sharing experiences",
-            "Speechwriter crafting a persuasive speech",
+            "Slackでフレンドリーで謙虚な人",
+            "GitHubでソフトウェア開発に関する議論をしている人",
+            "魅力的で洞察力のあるソーシャルメディアの投稿者",
+            "顧客からの問い合わせに対応するカスタマーサービス担当者",
+            "製品の発売スクリプトを作成するマーケティングマネージャー",
+            "ソフトウェアの手順を文書化するテクニカルライター",
+            "製品のロードマップを作成するプロダクトマネージャー",
+            "職務内容を記述する人事担当者",
+            "声明文を起草する広報担当者",
+            "研究成果を発表する科学研究者",
+            "旅行体験を共有するトラベルブロガー",
+            "説得力のあるスピーチを執筆するスピーチライター",
         ]
     ]
 
